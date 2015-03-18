@@ -23,8 +23,35 @@ handlers:
 - url: /js
   static_dir: js
 
-- url: /fonts
-  static_dir: fonts
+- url: /fonts/(.*\.woff)
+  static_files: fonts/\1
+  upload: fonts/(.*\.woff)
+  mime_type: application/font-woff
+
+- url: /fonts/(.*\.woff2)
+  static_files: fonts/\1
+  upload: fonts/(.*\.woff2)
+  mime_type: application/font-woff2
+
+- url: /fonts/(.*\.svg)
+  static_files: fonts/\1
+  upload: fonts/(.*\.svg)
+  mime_type: image/svg+xml
+
+- url: /fonts/(.*\.eot)
+  static_files: fonts/\1
+  upload: fonts/(.*\.eot)
+  mime_type: application/vnd.ms-fontobject
+
+- url: /fonts/(.*\.ttf)
+  static_files: fonts/\1
+  upload: fonts/(.*\.ttf)
+  mime_type: application/x-font-ttf
+
+- url: /fonts/(.*\.otf)
+  static_files: fonts/\1
+  upload: fonts/(.*\.otf)
+  mime_type: application/x-font-otf
 
 - url: /images
   static_dir: images

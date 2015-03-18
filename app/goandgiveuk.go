@@ -38,6 +38,17 @@ const rootForm = `
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
+		<script>
+        $(document).ready(function (){
+            $("#clicktosignup").click(function (){
+                //$(this).animate(function(){
+                    $('html, body').animate({
+                        scrollTop: $("#signup").offset().top
+						}, 2000);
+					//});
+				});
+			});
+		</script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -70,7 +81,7 @@ const rootForm = `
 								</li>
 							</ul>
 						</li>
-						<li><a href="#" class="button">Sign Up</a></li>
+						<li><a href="#" class="button" id="clicktosignup">Sign Up</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -157,8 +168,8 @@ const rootForm = `
 
 		<!-- CTA -->
 			<section id="cta">
-
-				<h2><a name="signup">Sign up</a> for beta access</h2>
+				<div id="signup"></div>
+				<h2>Sign up for beta access</h2>
 				<p>If you want to trial Go and Give as soon as possible, please sign up below.</p>
 
 				<form>
