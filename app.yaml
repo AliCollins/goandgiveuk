@@ -4,5 +4,33 @@ runtime: go
 api_version: go1
 
 handlers:
-- url: /.*
+# Main handler for the app.
+- url: /
+  script: app/_go_app
+  
+# The URL /index.html is also handled by the Go application.
+- url: /index\.html
   script: _go_app
+
+# All URLs beginning with /css are treated as paths to static files in
+# the css/ directory.
+- url: /css
+  static_dir: css
+
+- url: /css/ie
+  static_dir: css/ie
+
+- url: /js
+  static_dir: js
+
+- url: /fonts
+  static_dir: fonts
+
+- url: /images
+  static_dir: images
+
+- url: /sass
+  static_dir: sass
+  
+- url: /sass/ie
+  static_dir: sass/ie
