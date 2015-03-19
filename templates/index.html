@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <!--
-	Alpha by HTML5 UP
+	Based on Alpha by HTML5 UP
 	html5up.net | @n33co
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
@@ -17,6 +17,17 @@
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
+		<script>
+        $(document).ready(function (){
+            $("#clicktosignup").click(function (){
+                //$(this).animate(function(){
+                    $('html, body').animate({
+                        scrollTop: $("#signup").offset().top
+						}, 2000);
+					//});
+				});
+			});
+		</script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -49,7 +60,7 @@
 								</li>
 							</ul>
 						</li>
-						<li><a href="#" class="button">Sign Up</a></li>
+						<li><a href="#" class="button" id="clicktosignup">Sign Up</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -57,9 +68,9 @@
 		<!-- Banner -->
 			<section id="banner">
 				<h2>Go and Give</h2>
-				<p>A first attempt at a responsive website</p>
+				<p>A first attempt at a responsive website...with a small change!</p>
 				<ul class="actions">
-					<li><a href="#" class="button special">Sign Up</a></li>
+					<li><a href="#signup" class="button special">Sign Up</a></li>
 					<li><a href="#" class="button">Learn More</a></li>
 				</ul>
 			</section>
@@ -136,9 +147,9 @@
 
 		<!-- CTA -->
 			<section id="cta">
-
+				<div id="signup"></div>
 				<h2>Sign up for beta access</h2>
-				<p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc.</p>
+				<p>If you want to trial Go and Give as soon as possible, please sign up below.</p>
 
 				<form>
 					<div class="row uniform 50%">
