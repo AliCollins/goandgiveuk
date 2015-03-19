@@ -9,8 +9,13 @@ handlers:
   script: app/_go_app
   
 # The URL /index.html is also handled by the Go application.
-- url: /index\.html
+- url: /(.*\.html)
   script: _go_app
+
+# favicon.ico
+- url: /favicon.ico
+  static_files: favicon.ico
+  upload: favicon.ico
 
 # All URLs beginning with /css are treated as paths to static files in
 # the css/ directory.
