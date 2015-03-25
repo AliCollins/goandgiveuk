@@ -12,6 +12,10 @@ handlers:
 - url: /(.*\.html)
   script: _go_app
 
+# Signup handler is through the Go application.
+- url: /signup
+  script: app/_go_app
+
 # favicon.ico
 - url: /favicon.ico
   static_files: favicon.ico

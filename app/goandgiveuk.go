@@ -2,10 +2,12 @@
 package goandgiveuk
 
 import (
-	"net/http"
-
-	//	"appengine"
 	"html/template"
+	"net/http"
+	"time"
+
+	"appengine"
+	"appengine/datastore"
 )
 
 var templates = template.Must(template.ParseFiles(
@@ -15,31 +17,55 @@ var templates = template.Must(template.ParseFiles(
 	"templates/generic.html",
 ))
 
+type SignUpInfo struct {
+	Email string
+	IP    string
+	Date  time.Time
+}
+
 func init() {
 	http.HandleFunc("/", root)
+	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/contact.html", contact)
 	http.HandleFunc("/elements.html", elements)
 	http.HandleFunc("/generic.html", generic)
 }
 
+// Returns the key used for all signup entries
+func signupKey(c appengine.Context) *datastore.Key {
+	return datastore.NewKey(c, "GoandGiveUK", "signup", 0, nil)
+}
+
 func root(w http.ResponseWriter, r *http.Request) {
 	//	c := appengine.NewContext(r)
-	//	var temp_site string = r.URL.String()
-	//	c.Infof("Requested and truncated URL: %v", temp_site)
-
-	//	if r.URL.String()[:1] == "/" {
-	//		temp_site = temp_site[1:]
-	//	}
-	//	if temp_site == "" {
-	//		temp_site = "index.html"
-	//	}
 
 	err := templates.ExecuteTemplate(w, "index.html", nil)
-	//	err := templates.ExecuteTemplate(w, temp_site, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func signup(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+
+	sign := SignUpInfo{
+		Email: r.FormValue("email"),
+		IP:    r.RemoteAddr,
+		Date:  time.Now(),
+	}
+	// Use the same parent key on every signup to ensure each is in the same entity group.
+	key := datastore.NewIncompleteKey(c, "SignUp", signupKey(c))
+	_, err := datastore.Put(c, key, &sign)
+	if err != nil {
+		c.Infof("Failed to Signup: %v", sign.Email)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	} else {
+		c.Infof("Signup: %v", sign.Email)
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func contact(w http.ResponseWriter, r *http.Request) {
