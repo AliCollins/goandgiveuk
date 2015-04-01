@@ -16,6 +16,10 @@ handlers:
 - url: /signup
   script: app/_go_app
 
+# Contact handler is through the Go application.
+- url: /contactSubmission
+  script: app/_go_app
+
 # favicon.ico
 - url: /favicon.ico
   static_files: favicon.ico

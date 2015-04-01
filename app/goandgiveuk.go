@@ -8,6 +8,7 @@ import (
 
 	"appengine"
 	"appengine/datastore"
+	"appengine/mail"
 )
 
 var templates = template.Must(template.ParseFiles(
@@ -27,6 +28,7 @@ func init() {
 	http.HandleFunc("/", root)
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/contact.html", contact)
+	http.HandleFunc("/contactSubmission", contactSubmission)
 	http.HandleFunc("/elements.html", elements)
 	http.HandleFunc("/generic.html", generic)
 }
@@ -46,6 +48,7 @@ func root(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Sign-up method on root page
 func signup(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 
@@ -65,6 +68,22 @@ func signup(w http.ResponseWriter, r *http.Request) {
 		c.Infof("Signup: %v", sign.Email)
 	}
 
+	// Email the details to admin
+	// TODO only email based on number of entries - 1-10, 10s to 200, 100s to 1000, 250s beyond
+	emailBody := sign.Email + "\nIP: " + sign.IP + "\n" + sign.Date.String()
+	msg := &mail.Message{
+		Sender: sign.Email,
+		//To:		admin@goandgiveuk.appspot.com
+		Subject: "GoAndGiveUK - Sign Up",
+		Body:    emailBody,
+	}
+	// Send email to admins
+
+	err = mail.SendToAdmins(c, msg)
+	if err != nil {
+		c.Infof("Failed to send sign-up email to Admin: %v", err)
+	}
+
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
@@ -74,6 +93,31 @@ func contact(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+// Contact Submission method on root page
+func contactSubmission(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+
+	// Email the details to admin
+	emailBody := "Name: " + r.FormValue("name") + "\nEmail: " + r.FormValue("email") +
+		"\nSubject: " + r.FormValue("subject") + "\nMessage:\n" + r.FormValue("message")
+	msg := &mail.Message{
+		Sender: r.FormValue("email"),
+		//To:		admin@goandgiveuk.appspot.com
+		Subject: "GoAndGiveUK - Contact",
+		Body:    emailBody,
+	}
+	// Send email to admins
+
+	err := mail.SendToAdmins(c, msg)
+	if err != nil {
+		c.Infof("Failed to send contact email to Admin: %v", err)
+	} else {
+		c.Infof("Sent contact email to Admin: \n%v", emailBody)
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func elements(w http.ResponseWriter, r *http.Request) {
