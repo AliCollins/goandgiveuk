@@ -16,6 +16,7 @@ var templates = template.Must(template.ParseFiles(
 	"templates/contact.html",
 	"templates/elements.html",
 	"templates/generic.html",
+	"templates/_footer.html",
 ))
 
 type SignUpInfo struct {
@@ -38,11 +39,10 @@ func signupKey(c appengine.Context) *datastore.Key {
 	return datastore.NewKey(c, "GoandGiveUK", "signup", 0, nil)
 }
 
+// Serve the main page using templates
 func root(w http.ResponseWriter, r *http.Request) {
-	//	c := appengine.NewContext(r)
 
-	err := templates.ExecuteTemplate(w, "index.html", nil)
-	if err != nil {
+	if err := templates.ExecuteTemplate(w, "index.html", nil); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

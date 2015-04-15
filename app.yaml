@@ -8,7 +8,7 @@ handlers:
 - url: /
   script: app/_go_app
   
-# The URL /index.html is also handled by the Go application.
+# Other webpages are also handled by the Go application.
 - url: /(.*\.html)
   script: _go_app
 
