@@ -15,7 +15,6 @@ var templates = template.Must(template.ParseFiles(
 	"templates/index.html",
 	"templates/contact.html",
 	"templates/elements.html",
-	"templates/generic.html",
 	"templates/_header.html",
 	"templates/_footer.html",
 ))
@@ -32,7 +31,6 @@ func init() {
 	http.HandleFunc("/contact.html", contact)
 	http.HandleFunc("/contactSubmission", contactSubmission)
 	http.HandleFunc("/elements.html", elements)
-	http.HandleFunc("/generic.html", generic)
 }
 
 // Returns the key used for all signup entries
@@ -123,14 +121,6 @@ func contactSubmission(w http.ResponseWriter, r *http.Request) {
 
 func elements(w http.ResponseWriter, r *http.Request) {
 	err := templates.ExecuteTemplate(w, "elements.html", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-}
-
-func generic(w http.ResponseWriter, r *http.Request) {
-	err := templates.ExecuteTemplate(w, "generic.html", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
