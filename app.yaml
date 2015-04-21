@@ -1,15 +1,15 @@
 application: goandgiveuk
-version: 1
+version: 2
 runtime: go
 api_version: go1
 
 handlers:
-# Main handler for the app.
-- url: /
-  script: app/_go_app
-  
+
 # Other webpages are also handled by the Go application.
 - url: /(.*\.html)
+  script: _go_app
+
+- url: /(.*\.htm)
   script: _go_app
 
 # Signup handler is through the Go application.
@@ -22,6 +22,7 @@ handlers:
 
 # favicon.ico
 - url: /favicon.ico
+  mime_type: image/x-icon
   static_files: favicon.ico
   upload: favicon.ico
 
@@ -79,3 +80,7 @@ handlers:
   
 - url: /sass/ie
   static_dir: sass/ie
+
+  # Main handler for the app.
+- url: /
+  script: app/_go_app

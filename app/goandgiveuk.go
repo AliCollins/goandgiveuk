@@ -17,6 +17,8 @@ var templates = template.Must(template.ParseFiles(
 	"templates/elements.html",
 	"templates/_header.html",
 	"templates/_footer.html",
+	"templates/google02824a9658bcc8d7.html",
+	"templates/test.html",
 ))
 
 type SignUpInfo struct {
@@ -27,10 +29,16 @@ type SignUpInfo struct {
 
 func init() {
 	http.HandleFunc("/", root)
+	http.HandleFunc("/index.html", root)
+	http.HandleFunc("/index.htm", root)
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/contact.html", contact)
+	http.HandleFunc("/contact.htm", contact)
 	http.HandleFunc("/contactSubmission", contactSubmission)
 	http.HandleFunc("/elements.html", elements)
+	http.HandleFunc("/elements.htm", elements)
+	http.HandleFunc("/google02824a9658bcc8d7.html", googleVerify)
+	http.HandleFunc("/test.html", testPage)
 }
 
 // Returns the key used for all signup entries
@@ -121,6 +129,24 @@ func contactSubmission(w http.ResponseWriter, r *http.Request) {
 
 func elements(w http.ResponseWriter, r *http.Request) {
 	err := templates.ExecuteTemplate(w, "elements.html", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+// Verification page for Google WebMaster tools
+func googleVerify(w http.ResponseWriter, r *http.Request) {
+	err := templates.ExecuteTemplate(w, "google02824a9658bcc8d7.html", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+// Lightweight test page for Webmaster Tools - Fetch as Google
+func testPage(w http.ResponseWriter, r *http.Request) {
+	err := templates.ExecuteTemplate(w, "test.html", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
