@@ -7,10 +7,10 @@ handlers:
 
 # Other webpages are also handled by the Go application.
 - url: /(.*\.html)
-  script: _go_app
+  script: app/_go_app
 
 - url: /(.*\.htm)
-  script: _go_app
+  script: app/_go_app
 
 # Signup handler is through the Go application.
 - url: /signup
@@ -20,16 +20,16 @@ handlers:
 - url: /contactSubmission
   script: app/_go_app
 
+# robots.txt
+- url: /robots\.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt
+
 # favicon.ico
 - url: /favicon.ico
   mime_type: image/x-icon
-  static_files: favicon.ico
-  upload: favicon.ico
-
-# robots.txt
-- url: /robots.txt
-  static_files: robots.txt
-  upload: robots.txt
+  static_files: static/favicon.ico
+  upload: static/favicon.ico
 
 # All URLs beginning with /css are treated as paths to static files in
 # the css/ directory.
@@ -74,12 +74,6 @@ handlers:
 
 - url: /images
   static_dir: images
-
-- url: /sass
-  static_dir: sass
-  
-- url: /sass/ie
-  static_dir: sass/ie
 
   # Main handler for the app.
 - url: /
