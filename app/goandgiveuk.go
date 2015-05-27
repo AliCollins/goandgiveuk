@@ -13,6 +13,7 @@ import (
 
 var templates = template.Must(template.ParseFiles(
 	"templates/index.html",
+	"templates/about.html",
 	"templates/contact.html",
 	"templates/elements.html",
 	"templates/_header.html",
@@ -32,6 +33,8 @@ func init() {
 	http.HandleFunc("/index.html", root)
 	http.HandleFunc("/index.htm", root)
 	http.HandleFunc("/signup", signup)
+	http.HandleFunc("/about.html", about)
+	http.HandleFunc("/about.htm", about)
 	http.HandleFunc("/contact.html", contact)
 	http.HandleFunc("/contact.htm", contact)
 	http.HandleFunc("/contactSubmission", contactSubmission)
@@ -92,6 +95,14 @@ func signup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+func about(w http.ResponseWriter, r *http.Request) {
+	err := templates.ExecuteTemplate(w, "about.html", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func contact(w http.ResponseWriter, r *http.Request) {

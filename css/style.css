@@ -986,7 +986,6 @@
 	@keyframes reveal-header { 0% { top: -5em; } 100% { top: 0; } }
 
 	#header {
-		background: #444;
 		color: #bbb;
 		cursor: default;
 		height: 3.25em;
@@ -1121,7 +1120,7 @@
 			-o-animation: none;
 			-ms-animation: none;
 			animation: none;
-			background: none;
+			background: rgba(0, 0, 0, 0.75);
 			color: rgba(255, 255, 255, 0.75);
 			position: absolute;
 		}
